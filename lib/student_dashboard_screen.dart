@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Tambahkan ini untuk Consumer
 import 'profile_model.dart'; // Tambahkan ini untuk mengakses ProfileModel
 import 'join_class_modal.dart';
-import 'class_details_screen.dart'; // Import halaman detail kelas
+import 'class_details_student_screen.dart'; // Import halaman detail kelas
 import 'edit_profile_screen.dart'; // ✅ Import benar
 import 'settings_screen.dart';     // ✅ Import benar
 

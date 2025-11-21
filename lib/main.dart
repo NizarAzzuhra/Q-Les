@@ -1,8 +1,12 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'register_screen.dart';
 import 'student_dashboard_screen.dart';
-import 'profile_model.dart';
+import 'teacher_dashboard_screen.dart';
+import 'profile_model.dart'; // Untuk Student
+import 'teacher_profile.dart'; // Untuk Teacher
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProfileModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProfileModel()), // Student Profile
+        ChangeNotifierProvider(create: (_) => TeacherProfilel()), // Teacher Profile
+      ],
       child: MaterialApp(
         title: 'Classroom App',
         debugShowCheckedModeBanner: false,
@@ -32,8 +39,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const LoginScreen(),
           '/login': (context) => const LoginScreen(),
-          // Tambahkan route lain di sini jika perlu, misalnya:
-          // '/student': (context) => const StudentDashboardScreen(),
         },
       ),
     );
@@ -71,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 40),
                 SizedBox(
-                  width: 100,
-                  height: 100,
+                  width: 50,
+                  height: 50,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
@@ -90,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Classroom',
+                  'Q-Les',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -143,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.deepPurple.shade300, width: 2),
+              borderSide: const BorderSide(color: Color(0xFF3E41D4), width: 2),
             ),
           ),
         ),
@@ -166,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.deepPurple.shade300, width: 2),
+              borderSide: const BorderSide(color: Color(0xFF3E41D4), width: 2),
             ),
           ),
         ),
@@ -197,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurple.shade400,
+              backgroundColor: const Color(0xFF3E41D4),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
@@ -237,6 +242,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (email == 'student@demo.com' &&
               password == 'student123' &&
               role == 'Student') {
+            // Set profile untuk student
+            final studentProfile = context.read<ProfileModel>();
+            studentProfile.setProfile(
+              name: 'Student Demo',
+              email: 'student@demo.com',
+              role: 'Student',
+            );
+
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const StudentDashboardScreen()),
@@ -244,8 +257,17 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (email == 'teacher@demo.com' &&
               password == 'teacher123' &&
               role == 'Teacher') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Teacher login successful!')),
+            // Set profile untuk teacher
+            final teacherProfile = context.read<TeacherProfileModel>();
+            teacherProfile.setProfile(
+              name: 'Teacher Demo',
+              email: 'teacher@demo.com',
+              role: 'Teacher',
+            );
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const TeacherDashboardScreen()),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -254,7 +276,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.deepPurple.shade400,
+          backgroundColor: const Color(0xFF3E41D4),
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
@@ -289,10 +311,10 @@ class _LoginScreenState extends State<LoginScreen> {
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: Text(
+          child: const Text(
             'Register',
             style: TextStyle(
-              color: Colors.deepPurple.shade500,
+              color: Color(0xFF3E41D4),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -305,28 +327,28 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.deepPurple[50],
+        color: const Color(0xFFE6E7F8),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Demo Accounts:',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.deepPurple[900],
+              color: Color(0xFF3E41D4),
             ),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Teacher: teacher@demo.com / teacher123',
-            style: TextStyle(color: Colors.deepPurple[800]),
+            style: TextStyle(color: Color(0xFF3E41D4)),
           ),
           const SizedBox(height: 4),
-          Text(
+          const Text(
             'Student: student@demo.com / student123',
-            style: TextStyle(color: Colors.deepPurple[800]),
+            style: TextStyle(color: Color(0xFF3E41D4)),
           ),
         ],
       ),

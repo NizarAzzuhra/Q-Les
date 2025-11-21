@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProfileModel extends ChangeNotifier {
   String _name = 'Student Demo';
   String _email = 'student@demo.com';
-  String _role = 'Student';
+  final String _role = 'Student';
   String? _photoUrl; // URL atau path foto profil
 
   // Simulasi tanggal terakhir perubahan email (untuk batasan 1x/bulan)
