@@ -1,11 +1,14 @@
+// lib/class_details_student_screen.dart
+
 import 'package:flutter/material.dart';
+import 'comments_screen.dart'; // Untuk tombol komentar
+import 'class_member_student_screen.dart'; // Untuk tombol daftar member
 
-
-class ClassDetailsScreen extends StatelessWidget {
+class ClassDetailsStudentScreen extends StatelessWidget {
   final String className;
   final String classCode;
 
-  const ClassDetailsScreen({
+  const ClassDetailsStudentScreen({
     super.key,
     required this.className,
     required this.classCode,
@@ -33,6 +36,38 @@ class ClassDetailsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              // Tombol "View Comments"
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CommentsScreen(
+                          className: className,
+                          classCode: classCode,
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  icon: const Icon(Icons.chat_bubble_outline),
+                  label: const Text(
+                    'View Comments',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
               const SizedBox(height: 30),
@@ -66,6 +101,27 @@ class ClassDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+              ),
+
+              // Ikon orang di pojok kanan bawah
+              Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    // Navigasi ke ClassMembersStudentScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClassMembersStudentScreen(
+                          className: className,
+                          classCode: classCode,
+                        ),
+                      ),
+                    );
+                  },
+                  backgroundColor: Colors.indigo,
+                  child: const Icon(Icons.people, color: Colors.white),
                 ),
               ),
             ],

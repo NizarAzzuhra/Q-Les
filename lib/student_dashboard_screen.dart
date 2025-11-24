@@ -146,7 +146,7 @@ class StudentDashboardScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ClassDetailsScreen(
+                              builder: (context) => ClassDetailsStudentScreen(
                                 className: cls.name,
                                 classCode: cls.code,
                               ),

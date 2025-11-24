@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 import 'register_screen.dart';
 import 'student_dashboard_screen.dart';
 import 'teacher_dashboard_screen.dart';
-import 'profile_model.dart'; // Untuk Student
-import 'teacher_profile.dart'; // Untuk Teacher
+import 'profile_model.dart'; // Gunakan SATU model untuk semua
 
 void main() {
   runApp(const MyApp());
@@ -17,11 +16,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ProfileModel()), // Student Profile
-        ChangeNotifierProvider(create: (_) => TeacherProfilel()), // Teacher Profile
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => ProfileModel(), // Hanya SATU model
       child: MaterialApp(
         title: 'Classroom App',
         debugShowCheckedModeBanner: false,
@@ -243,8 +239,8 @@ class _LoginScreenState extends State<LoginScreen> {
               password == 'student123' &&
               role == 'Student') {
             // Set profile untuk student
-            final studentProfile = context.read<ProfileModel>();
-            studentProfile.setProfile(
+            final profile = context.read<ProfileModel>();
+            profile.setProfile(
               name: 'Student Demo',
               email: 'student@demo.com',
               role: 'Student',
@@ -257,9 +253,9 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (email == 'teacher@demo.com' &&
               password == 'teacher123' &&
               role == 'Teacher') {
-            // Set profile untuk teacher
-            final teacherProfile = context.read<TeacherProfileModel>();
-            teacherProfile.setProfile(
+            // Set profile untuk teacher (tetap gunakan ProfileModel yang sama)
+            final profile = context.read<ProfileModel>();
+            profile.setProfile(
               name: 'Teacher Demo',
               email: 'teacher@demo.com',
               role: 'Teacher',

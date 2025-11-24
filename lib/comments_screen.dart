@@ -6,13 +6,13 @@ import 'comment_model.dart';
 class CommentsScreen extends StatefulWidget {
   final String className;
   final String classCode;
-  final String questionTitle; // Jika dari soal tertentu
+  final String? questionTitle; // Jadikan nullable (opsional)
 
   const CommentsScreen({
     super.key,
     required this.className,
     required this.classCode,
-    required this.questionTitle,
+    this.questionTitle, // Tidak lagi 'required'
   });
 
   @override
@@ -43,14 +43,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
         child: Column(
           children: [
             // Header (opsional: tampilkan nama kelas dan soal jika ada)
-            if (widget.questionTitle.isNotEmpty)
+            if (widget.questionTitle != null && widget.questionTitle!.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.questionTitle,
+                      widget.questionTitle!,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   ],
                 ),
               ),
-            if (widget.questionTitle.isEmpty)
+            if (widget.questionTitle == null || widget.questionTitle!.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(

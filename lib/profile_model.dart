@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProfileModel extends ChangeNotifier {
   String _name = 'Student Demo';
   String _email = 'student@demo.com';
-  final String _role = 'Student';
+  String _role = 'Student'; // Diubah dari 'final' menjadi 'String' agar bisa diubah
   String? _photoUrl; // URL atau path foto profil
 
   // Simulasi tanggal terakhir perubahan email (untuk batasan 1x/bulan)
@@ -14,10 +14,18 @@ class ProfileModel extends ChangeNotifier {
 
   String get name => _name;
   String get email => _email;
-  String get role => _role;
+  String get role => _role; // Getter tetap sama
   String? get photoUrl => _photoUrl;
   DateTime? get lastEmailChangeDate => _lastEmailChangeDate;
   List<Class> get joinedClasses => [..._joinedClasses]; // Return copy
+
+  // Method untuk mengatur profil (digunakan saat login/register)
+  void setProfile({required String name, required String email, required String role}) {
+    _name = name;
+    _email = email;
+    _role = role; // Sekarang bisa diubah
+    notifyListeners();
+  }
 
   void updateName(String newName) {
     _name = newName;
@@ -64,6 +72,7 @@ class ProfileModel extends ChangeNotifier {
   void reset() {
     _name = 'Student Demo';
     _email = 'student@demo.com';
+    _role = 'Student'; // Reset juga role
     _lastEmailChangeDate = null;
     _photoUrl = null;
     _joinedClasses.clear(); // Hapus semua kelas
